@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #222529;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.container {
+  min-width: 420px;
+  max-width: 700px;
+  width: 80vw;
+  height: calc(100vh - 160px);
+  background-color: #222529;
+  padding: 20px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+
+  overflow-y: scroll;
+}
+
+.header {
+  height: 80px;
+  padding: 10px 20px;
+  background-color: #222529;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  box-sizing: border-box;
+}
+
+.header span {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.btn-large {
+  width: 80%;
+  height: 70px;
+  background-color: #515861;
+  border-radius: 8px;
+  color: white;
+  margin: 10px;
+
+  font-size: 20px;
+}
+
+.btn-small {
+  width: 80%;
+  height: 50px;
+  background-color: #515861;
+  border-radius: 8px;
+  color: white;
+
+  margin-top: 10px;
+  
+  font-size: 20px;
+}
+
+input {
+  width: 80%;
+  height: 60px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: black;
+  font-size: 24px;
+  padding: 10px;
+
+  box-sizing: border-box;
+
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.loader p {
+  margin-top: 30px;
+  font-size: 20px;
+  color: #333; /* 텍스트 색상 */
+}
+
+.policy-box {
+  background-color: #f0f0f0;
+}

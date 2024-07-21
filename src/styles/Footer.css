@@ -1,0 +1,35 @@
+.footer {
+  width: 100%;
+  height: 100px;
+  position: relative;
+  font-size: 16px;
+
+  display: flex;
+  justify-self: center;
+}
+
+.footer-content {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+.footer a {
+  color: #0000ff; /* Blue links */
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  color: aliceblue;
+}
+
+.footer hr {
+  border: 0;
+  border-top: 1px solid #ffffff;
+  margin: 10px 0;
+}

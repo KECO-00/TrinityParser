@@ -1,0 +1,42 @@
+
+.navbar {
+    background-color: #333;
+    color: #a0a0a0;
+    padding: 10px 0;
+    text-align: center;
+    min-width: 420px;
+    max-width: 700px;
+    width: 80vw;
+    height: 80px;
+    position: absolute; 
+    bottom: 0;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px -2px 4px inset, rgba(0, 0, 0, 0.3) 0px -7px 13px -3px inset, rgba(0, 0, 0, 0.2) 0px 3px 0px;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.nav {
+    width: 30%;
+    height: 90%;
+
+    text-decoration: none;
+    color: inherit;
+}
+
+nav span {
+    font-size: 35px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.active-nav-item {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
