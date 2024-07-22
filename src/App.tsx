@@ -6,13 +6,42 @@ import SugangPage from './pages/SugangPage';
 import Navbar from './components/Navbar';
 import {Footer} from './components/Footer';
 import './styles/App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PrivacyPolicy from './pages/PrivacyPolicyPage';
 
-
+interface authorizeResonse {
+  status: string;
+  message: string;
+  data: null;
+};
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
+  const api_url = import.meta.env.VITE_API_URL;
+
+  const checkLoggedIn = async () => {
+    try {
+        const res = await fetch(`${api_url}/trinity/auth/authorize`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        const data: authorizeResonse = await res.json();
+        if(data.status === "OK") {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+    } catch (err) {
+        console.error("Error get login info", err);
+    }
+}
+  useEffect(() => {
+    checkLoggedIn();
+  })
 
   return (
     <BrowserRouter>
