@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import "../styles/Sugang.css";
 import { Loader } from '../components/Loader';
 import { useMovePage } from '../hooks/navigator';
-import { error } from 'console';
 
 interface SugangResponse {
     status: string,
