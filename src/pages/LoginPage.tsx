@@ -1,5 +1,6 @@
 import React, { useState }from 'react';
 import { useMovePage } from '../hooks/navigator';
+import { SyncLoader } from "react-spinners";
 import '../styles/Login.css';
 
 interface Response {
@@ -22,6 +23,7 @@ export default function LoginPage (props: ILoginPageProps) {
   const [pw, setPw] = useState<string>('');
   const [errMsg, setErrMsg] = useState<string>('');
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -29,6 +31,7 @@ export default function LoginPage (props: ILoginPageProps) {
 
   const handleLogin = async () => {
     setErrMsg('');
+    setIsLoading(true);
     if(isChecked){
       try {
         const res = await fetch(`${api_url}/trinity/login`, {
@@ -47,14 +50,16 @@ export default function LoginPage (props: ILoginPageProps) {
   
         if(data.status === "OK" && data.data){
           props.setLoggedIn(true);
-          
+          setIsLoading(false);
           movePage('/');
         } else {
+          setIsLoading(false);
           setErrMsg('유효하지 않은 로그인 정보입니다.');
         }
   
       } catch (err) {
         console.error("Error logging in:", err);
+        setIsLoading(false);
         setErrMsg("로그인 중 오류가 발생했습니다.");
       }
     }else{
@@ -83,7 +88,12 @@ export default function LoginPage (props: ILoginPageProps) {
             </div>
 
             <div className="error-container">
-              {errMsg}
+              {
+                isLoading 
+                ? <SyncLoader color='white' />
+                : errMsg
+                // 
+              }
             </div>
 
             <div className="policy-box">
