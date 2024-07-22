@@ -33,15 +33,11 @@ export default function SugangPage (props: ISugangPageProps) {
     const handleGetSugang = async () => {
         try {
             setIsLoading(true);
-            const res = await fetch(`${api_url}/trinity/auth/sujtNo`, {
-                method: "POST",
+            const res = await fetch(`${api_url}/trinity/auth/sujtInq?sujtNo=${sbjtNo}&classNo=${classNo}`, {
+                method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    sujtNo: sbjtNo,
-                    classNo: classNo
-                }),
                 credentials: 'include',
             });
 
