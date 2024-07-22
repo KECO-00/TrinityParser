@@ -46,9 +46,6 @@ export default function LoginPage (props: ILoginPageProps) {
         const data: Response = await res.json();
   
         if(data.status === "OK" && data.data){
-          console.log("로그인 성공");
-          console.log(data.data.name);
-          console.log(data.data.roles);
           props.setLoggedIn(true);
           
           movePage('/');

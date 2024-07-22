@@ -58,7 +58,6 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
                 props.setLoggedIn(false);
                 movePage('/');
             } else {
-                console.log(data);
                 setGrades(data.data.grades);
                 setIsLoading(false);
             }

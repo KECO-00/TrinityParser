@@ -35,10 +35,6 @@ export default function Homepage (props: IHomepageProps) {
 
   }
 
-  useEffect(() => {
-    console.log(props.isLoggedIn);
-  }, [])
-  
   return (
     <>
       <div className="info-box">

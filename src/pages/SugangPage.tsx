@@ -47,11 +47,6 @@ export default function SugangPage (props: ISugangPageProps) {
 
             const data: SugangResponse = await res.json();
             if(data.status === "OK" && data.data) {
-                console.log("과목 정보 불러오기 성공")
-                console.log(data.data.sbjtKorNm);
-                console.log(data.data.tlsnAplyRcnt);
-                console.log(data.data.tlsnLmtRcnt);
-
                 setSbjtKorNm(data.data.sbjtKorNm);
                 setTlsnAplyRcnt(data.data.tlsnAplyRcnt);
                 setTlsnLmtRcnt(data.data.tlsnLmtRcnt);
