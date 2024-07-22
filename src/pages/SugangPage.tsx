@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "../styles/Sugang.css";
 import { Loader } from '../components/Loader';
 import { useMovePage } from '../hooks/navigator';
+import { error } from 'console';
 
 interface SugangResponse {
     status: string,
@@ -21,6 +22,7 @@ export default function SugangPage (props: ISugangPageProps) {
     const movePage = useMovePage();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>('');
     const [sbjtNo, setSbjtNo] = useState<string>('');
     const [classNo, setClassNo] = useState<string>('');
 
@@ -42,6 +44,7 @@ export default function SugangPage (props: ISugangPageProps) {
             });
 
             const data: SugangResponse = await res.json();
+            console.log(data);
             if(data.status === "OK" && data.data) {
                 setSbjtKorNm(data.data.sbjtKorNm);
                 setTlsnAplyRcnt(data.data.tlsnAplyRcnt);
@@ -54,6 +57,7 @@ export default function SugangPage (props: ISugangPageProps) {
                 movePage('/');
             } else {
                 setIsError(true);
+                setErrorMsg(data.message);
                 setIsLoading(false);
             }
 
@@ -98,7 +102,7 @@ export default function SugangPage (props: ISugangPageProps) {
                 ? <Loader />
                 : (
                     isError
-                    ? <h4>과목코드 또는 분반이 유효하지 않습니다.</h4>
+                    ? <h4>{errorMsg}</h4>
                     :
                     <>
                             <p>과목명: {sbjtKorNm}</p>
