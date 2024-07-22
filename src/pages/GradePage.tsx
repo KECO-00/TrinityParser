@@ -19,7 +19,7 @@ interface GradeResponse {
     message: string,
     data: {
         grades: Grade[],
-    }
+    } | null
 }
 
 export interface IGradePageProps {
@@ -59,14 +59,15 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
                     alert("로그인이 만료되었습니다.");
                     props.setLoggedIn(false);
                     movePage('/');
-                } else {
+                } else if (data.data !== null) {
                     setGrades(data.data.grades);
+                    setIsLoading(false);
+                } else {
+                    setErrorMsg("휴학생 또는 졸업생의 경우, 조회가 불가능합니다.")
                     setIsLoading(false);
                 }
             } catch(err){
-                console.log(err);
-                setErrorMsg("휴학생 또는 졸업생의 경우, 조회가 불가능합니다.")
-                setIsLoading(false);
+                
             }
 
         }
