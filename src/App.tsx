@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import HomePage from "./pages/HomePage";
 import LoginPage from './pages/LoginPage';
 import GradePage from './pages/GradePage';
@@ -46,7 +46,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="header">
-        <span>Trinity Parser</span>
+        <Link to={"/"} className="header-link">TrinityParser</Link>
       </div>
       <div className="container">
           <Routes>
