@@ -30,6 +30,7 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [grades, setGrades] = useState<Grade[]>([]);
     const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null);
+    const [errorMsg, setErrorMsg] = useState<string>('');
     const api_url = import.meta.env.VITE_API_URL;
     const movePage = useMovePage();
 
@@ -44,21 +45,27 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
     useEffect(() => {
         const getGrade = async () => {
             setIsLoading(true);
-            const res = await fetch(`${api_url}/trinity/auth/grade`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            });
+            try{
+                const res = await fetch(`${api_url}/trinity/auth/grade`, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
 
-            const data: GradeResponse = await res.json();
-            if(data.status === "UNAUTHORIZED"){
-                alert("로그인이 만료되었습니다.");
-                props.setLoggedIn(false);
-                movePage('/');
-            } else {
-                setGrades(data.data.grades);
+                const data: GradeResponse = await res.json();
+                if(data.status === "UNAUTHORIZED"){
+                    alert("로그인이 만료되었습니다.");
+                    props.setLoggedIn(false);
+                    movePage('/');
+                } else {
+                    setGrades(data.data.grades);
+                    setIsLoading(false);
+                }
+            } catch(err){
+                console.log(err);
+                setErrorMsg("휴학생 또는 졸업생의 경우, 조회가 불가능합니다.")
                 setIsLoading(false);
             }
 
@@ -74,27 +81,31 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
 
             <table className="grade-table">
                 {
-                    isLoading
-                    ? <Loader />
+                    errorMsg !== ""
+                    ? (<h4>{errorMsg}</h4>)
                     : (
-                        <>
-                            <thead>
-                                <tr>
-                                    <th>과목명</th>
-                                    <th>성적</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                {grades.map((grade) => (
-                                    <tr key={grade.sbjtNo} onClick={() => handleGradeClick(grade)}>
-                                        <td>{grade.sbjtKorNm}</td>
-                                        <td>{grade.grdAdm}</td>
+                        isLoading
+                        ? <Loader />
+                        : (
+                            <>
+                                <thead>
+                                    <tr>
+                                        <th>과목명</th>
+                                        <th>성적</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </>
+                                </thead>
+                                <tbody>
+                                    
+                                    {grades.map((grade) => (
+                                        <tr key={grade.sbjtNo} onClick={() => handleGradeClick(grade)}>
+                                            <td>{grade.sbjtKorNm}</td>
+                                            <td>{grade.grdAdm}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </>
 
+                        )
                     )
                 }
             </table>
