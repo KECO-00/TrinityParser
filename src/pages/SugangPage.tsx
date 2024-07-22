@@ -20,6 +20,7 @@ export interface ISugangPageProps {
 export default function SugangPage (props: ISugangPageProps) {
     const movePage = useMovePage();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     const [sbjtNo, setSbjtNo] = useState<string>('');
     const [classNo, setClassNo] = useState<string>('');
 
@@ -60,6 +61,9 @@ export default function SugangPage (props: ISugangPageProps) {
                 alert("로그인이 만료되었습니다.")
                 props.setLoggedIn(false);
                 movePage('/');
+            } else {
+                setIsError(true);
+                setIsLoading(false);
             }
 
 
@@ -102,12 +106,16 @@ export default function SugangPage (props: ISugangPageProps) {
                 isLoading
                 ? <Loader />
                 : (
+                    isError
+                    ? <h4>과목코드 또는 분반이 유효하지 않습니다.</h4>
+                    :
                     <>
-                        <p>과목명: {sbjtKorNm}</p>
-                        <p>과목 제한 인원: {tlsnLmtRcnt}</p>
-                        <p>현재 신청 인원: {tlsnAplyRcnt}</p>
-                    </>
+                            <p>과목명: {sbjtKorNm}</p>
+                            <p>과목 제한 인원: {tlsnLmtRcnt}</p>
+                            <p>현재 신청 인원: {tlsnAplyRcnt}</p>
+                        </>
                 )
+    
             }
         </div>
     </>
