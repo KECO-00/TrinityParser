@@ -75,14 +75,14 @@ export default function SugangPage (props: ISugangPageProps) {
                 <input 
                     type="text" 
                     name="subject-code" 
-                    placeholder="과목 코드"
+                    placeholder="과목 코드 (예: 000000)"
                     value={sbjtNo}
                     onChange={(e) => setSbjtNo(e.target.value)}
                 />
                 <input 
                     type="text" 
                     name="division" 
-                    placeholder="분반" 
+                    placeholder="분반 (예: 01)" 
                     value={classNo}
                     onChange={(e) => setClassNo(e.target.value)}
                 />
