@@ -1,7 +1,7 @@
 import React from "react";
 import { SyncLoader } from "react-spinners";
 
-export const Loader = () => {
+export const Loader: React.FC = () => {
   return (
     <div className="loader">
         <SyncLoader />
