@@ -27,7 +27,7 @@ export default function Navbar () {
           : "nav-item"
         }>
             <span><FaBook/></span>
-            수강 신청 조회
+            수강 신청 인원 조회
         </nav>
       </Link>
       <Link to="/grade" className="nav">
