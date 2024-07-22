@@ -43,7 +43,6 @@ export default function SugangPage (props: ISugangPageProps) {
             });
 
             const data: SugangResponse = await res.json();
-            console.log(data);
             if(data.status === "OK" && data.data) {
                 setSbjtKorNm(data.data.sbjtKorNm);
                 setTlsnAplyRcnt(data.data.tlsnAplyRcnt);
