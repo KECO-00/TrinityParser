@@ -30,3 +30,7 @@ tr {
 tr:hover {
 background-color: #95A4B8; /* 행에 마우스를 올렸을 때 배경색 */
 }
+
+.description{
+    font-size: 14px;
+}

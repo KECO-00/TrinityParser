@@ -110,6 +110,7 @@ const GradePage: React.FC<IGradePageProps> = (props) => {
                     )
                 }
             </table>
+            <p className="description">성적을 클릭하면 해당 과목의 세부 정보를 확인할 수 있습니다.</p>
             <Modal isOpen={selectedGrade !== null} onClose={closeModal}>
                 {selectedGrade && (
                     <div>
