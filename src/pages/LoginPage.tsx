@@ -63,7 +63,8 @@ export default function LoginPage (props: ILoginPageProps) {
         setErrMsg("로그인 중 오류가 발생했습니다.");
       }
     }else{
-      alert("동의가 필요합니다")
+      alert("동의가 필요합니다");
+      setIsLoading(false);
     }
 
   };
