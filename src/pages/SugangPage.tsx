@@ -4,14 +4,15 @@ import { Loader } from '../components/Loader';
 import { useMovePage } from '../hooks/navigator';
 
 interface SugangResponse {
-    status: string,
-    message: string,
+    status: string;
+    message: string;
     data: {
-        tlsnAplyRcnt: string | null,
-        tlsnLmtRcnt: string | null,
-        sbjtKorNm: string | null,
-        extraCnt: string 
-    } | null,
+        tlsnAplyRcnt: string | null;
+        tlsnLmtRcnt: string | null;
+        sbjtKorNm: string | null;
+        classNo: string | null;
+        extraCnt: string ;
+    } | null;
 }
 
 export interface ISugangPageProps {
@@ -24,19 +25,21 @@ export default function SugangPage (props: ISugangPageProps) {
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [sbjtNo, setSbjtNo] = useState<string>('');
-    const [classNo, setClassNo] = useState<string>('');
+    const [inputClassNo, setInputClassNo] = useState<string>('');
 
     const api_url = import.meta.env.VITE_API_URL;
 
     const [sbjtKorNm, setSbjtKorNm] = useState<string|null>('');
+    const [classNo, setClassNo] = useState<string|null>('');
     const [tlsnAplyRcnt, setTlsnAplyRcnt] = useState<string|null>('');
     const [tlsnLmtRcnt, setTlsnLmtRcnt] = useState<string|null>('');
     const [extraCnt, setExtraCnt] = useState<string>('');
 
     const handleGetSugang = async () => {
         try {
+            setIsError(false);
             setIsLoading(true);
-            const res = await fetch(`${api_url}/trinity/auth/sujtInq?sujtNo=${sbjtNo}&classNo=${classNo}`, {
+            const res = await fetch(`${api_url}/trinity/auth/sujtInq?sujtNo=${sbjtNo}&classNo=${inputClassNo}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,6 +53,7 @@ export default function SugangPage (props: ISugangPageProps) {
                 setTlsnAplyRcnt(data.data.tlsnAplyRcnt);
                 setTlsnLmtRcnt(data.data.tlsnLmtRcnt);
                 setExtraCnt(data.data.extraCnt);
+                setClassNo(data.data.classNo);
 
                 setIsLoading(false);
             } else if(data.status === "UNAUTHORIZED"){
@@ -70,7 +74,7 @@ export default function SugangPage (props: ISugangPageProps) {
 
     const resetStatus = () => {
         setSbjtNo('');
-        setClassNo('');
+        setInputClassNo('');
     }
 
   return (
@@ -88,8 +92,8 @@ export default function SugangPage (props: ISugangPageProps) {
                     type="text" 
                     name="division" 
                     placeholder="분반 (예: 01)" 
-                    value={classNo}
-                    onChange={(e) => setClassNo(e.target.value)}
+                    value={inputClassNo}
+                    onChange={(e) => setInputClassNo(e.target.value)}
                 />
             </div>
 
