@@ -10,6 +10,7 @@ interface SugangResponse {
         tlsnAplyRcnt: string | null,
         tlsnLmtRcnt: string | null,
         sbjtKorNm: string | null,
+        extraCnt: string 
     } | null,
 }
 
@@ -30,6 +31,7 @@ export default function SugangPage (props: ISugangPageProps) {
     const [sbjtKorNm, setSbjtKorNm] = useState<string|null>('');
     const [tlsnAplyRcnt, setTlsnAplyRcnt] = useState<string|null>('');
     const [tlsnLmtRcnt, setTlsnLmtRcnt] = useState<string|null>('');
+    const [extraCnt, setExtraCnt] = useState<string>('');
 
     const handleGetSugang = async () => {
         try {
@@ -47,6 +49,7 @@ export default function SugangPage (props: ISugangPageProps) {
                 setSbjtKorNm(data.data.sbjtKorNm);
                 setTlsnAplyRcnt(data.data.tlsnAplyRcnt);
                 setTlsnLmtRcnt(data.data.tlsnLmtRcnt);
+                setExtraCnt(data.data.extraCnt);
 
                 setIsLoading(false);
             } else if(data.status === "UNAUTHORIZED"){
@@ -103,9 +106,10 @@ export default function SugangPage (props: ISugangPageProps) {
                     ? <h4>{errorMsg}</h4>
                     :
                     <>
-                            <p>과목명: {sbjtKorNm}</p>
+                            <p>과목명: {sbjtKorNm} {classNo}</p>
                             <p>과목 제한 인원: {tlsnLmtRcnt}</p>
                             <p>현재 신청 인원: {tlsnAplyRcnt}</p>
+                            <p>현재 여석 수: {extraCnt}</p>
                         </>
                 )
     
