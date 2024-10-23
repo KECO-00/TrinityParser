@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
+# Trinity Parser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**기간**: 2024.07 ~ 2024.07 (2주)  
+**인원**: 2인 (FE: 1명, BE: 1명)  
+**개요**: 가톨릭대 학생을 위한 수강신청 인원 확인 및 성적 미리보기 서비스  
+수강신청 기간 또는 정정 기간에 특정 시간 외에 현재 신청 인원을 확인할 수 없는 불편함을 해소하기 위한 서비스를 개발하였습니다. 또한, 교수님께서 성적 등록 후, 공개로 설정해놓은 경우, 미리 조회할 수 있는 서비스를 제공합니다.
 
-Currently, two official plugins are available:
+## 프로젝트 정보
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **담당 역할**: 프론트엔드 개발자
+- **개발환경**: VSCode, Vite
+- **개발스택**: TypeScript, React
+- **홈페이지**: [https://parser.dobby.kr](https://parser.dobby.kr)
 
-## Expanding the ESLint configuration
+## 특이사항
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+모바일에 맞는 웹앱 형식으로 서비스를 개발했습니다.  
+학생들에게 홍보할 때, 커뮤니티 앱을 통해 진행하여 모바일 유저가 더 많을 것이라고 판단했습니다.
 
-- Configure the top-level `parserOptions` property like this:
+## 기능 구현
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- Vite 환경에서 React와 TypeScript를 사용하여 서비스를 개발했습니다.
+- 쿠키를 활용하여 로그인 여부를 확인하고, 필요 시 로그인 화면으로 이동시켰습니다.
+- 내부적으로 DB를 쓰지 않고, 요청을 주고받아 대기시간이 오래 걸려 UX를 고려하여 로딩 아이콘을 추가하였습니다.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 회고 및 성과
+
+### 성취
+
+- CRA 대신 Vite를 사용하여 프로젝트를 생성하여 더 빠른 빌드 속도를 느낄 수 있었습니다.
+- 실제 서비스를 배포하여 사용자들의 피드백을 받으며 UI/UX의 중요성에 대해 느끼는 계기가 되었습니다.
+
+### 피드백
+
+- 서비스 배포(24.07.23) 이후 2800회의 접속이 있었습니다. (24.08.09 기준)
