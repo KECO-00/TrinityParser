@@ -28,3 +28,7 @@
     margin-bottom: 8%;
     width: 100%;
 }
+
+.text-canceled {
+    text-decoration: line-through;
+}
