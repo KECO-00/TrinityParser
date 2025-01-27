@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
-import { FaHome, FaPencilAlt, FaBook } from "react-icons/fa";
+import { FaHome, FaPencilAlt, FaBook, FaClipboardList} from "react-icons/fa";
 
 
 export default function Navbar () {
@@ -38,6 +38,16 @@ export default function Navbar () {
         }>
             <span><FaPencilAlt/></span>
             성적 조회
+        </nav>
+      </Link>
+      <Link to="/board" className="nav">
+        <nav className={
+          curLocation === '/board'
+          ? "active-nav-item"
+          : "nav-item"
+        }>
+          <span><FaClipboardList/></span>
+          게시판
         </nav>
       </Link>
     </div>
