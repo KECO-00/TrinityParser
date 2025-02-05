@@ -107,7 +107,8 @@ const BoardPage: React.FC<IGradePageProps> = () => {
                 alert(latestData.message);
               } else {
                 // 최신 데이터를 기존 목록의 맨 위에 추가
-                setBoardList((prev) => [...latestData.data, ...prev]);
+                const lastest: BoardType = latestData.data[0];
+                setBoardList((prev) => [lastest, ...prev]);
               }
             
 
