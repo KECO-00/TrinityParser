@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import '../styles/Board.css';
 
 interface Response {
@@ -15,7 +15,7 @@ export interface BoardType {
     id: string;
     context: string;
     created_time: string;
-    visible: string;
+    visible: boolean;
     likes: number;
     total_records: string;
 }
@@ -26,15 +26,20 @@ export interface BoardEntry {
     data: BoardType[];
 }
 
-const BoardPage: React.FC<IGradePageProps> = (props) => {
+const BoardPage: React.FC<IGradePageProps> = () => {
     const api_url = import.meta.env.VITE_API_URL;
     const [boardList, setBoardList] = useState<BoardType[]>([]);
     const [inputValue, setInputValue] = useState<string>("");
-    const [lastId, setLastId] = useState<number>(0);
+    const [lastId, setLastId] = useState<string>("0");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [hasMore, setHasMore] = useState<boolean>(true);
 
-    const getBoard = async () => {
+    const bottomDivRef = useRef<HTMLDivElement | null>(null);
+
+    const getBoard = async (cursor: string) => {
+        setIsLoading(true);
         try {
-            const res = await fetch(`${api_url}/trinity/auth/vl?cursor=AaBbCcDdMA==`, {
+            const res = await fetch(`${api_url}/trinity/auth/vl?cursor=${cursor}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,9 +52,16 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
             if(data.status === "Bad Request"){
                 alert(data.message);
             }
-            setBoardList(data.data);
+            setBoardList((prev) => [...prev, ...data.data]);
+            setIsLoading(false);
+
+            if (data.data.length > 0) {
+                setLastId(data.data[data.data.length - 1].id);
+              }
         }catch(err) {
             alert("무엇인가 안된다")
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -78,12 +90,31 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
             } else {
                 setInputValue(""); // 입력 필드 초기화
                 alert("댓굴이 작성되었습니다.");
-                getBoard();
             }
+            
+            setIsLoading(true);
+            const latestRes = await fetch(`${api_url}/trinity/auth/vl?cursor=${generateRandomString()}${btoa("0")}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+              });
+              
+              setIsLoading(false);
+              const latestData: BoardEntry = await latestRes.json();
+              if (latestData.status === "Bad Request") {
+                alert(latestData.message);
+              } else {
+                // 최신 데이터를 기존 목록의 맨 위에 추가
+                setBoardList((prev) => [...latestData.data, ...prev]);
+              }
+            
+
         }catch (err) {
             console.error(err);
         }
-      };
+    };
 
       const handleLike = async (id:string) => {
         try {
@@ -118,13 +149,17 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
         }
       };
 
-    useEffect(() => {
-        getBoard();
-        console.log(boardList);
-        console.log(btoa("10"));
-    }, []);
-    console.log(boardList);
-    
+      const generateRandomString = (length: number = 8): string => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          result += characters[randomIndex];
+        }
+        return result;
+      };
+      
+
     const formatCreatedTime = (createdTime: string): string => {
         const createdDate = new Date(createdTime.replace(" ", "T"));
         const curTime = new Date();
@@ -145,6 +180,31 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
         }
     };
 
+    useEffect(() => {
+        getBoard(generateRandomString() + btoa(lastId)); // 초기 데이터 로드
+    }, []);
+    
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if(entries[0].isIntersecting && !isLoading && hasMore) {
+                    if(lastId == "1"){
+                        observer.disconnect();
+                        setHasMore(false);
+                        return;
+                    }
+
+                    getBoard(generateRandomString() + btoa(lastId));
+                }
+            }, 
+            { threshold: 1.0 }
+        );
+
+        if(bottomDivRef.current) observer.observe(bottomDivRef.current);
+        
+        return () => observer.disconnect();
+    }, [lastId, isLoading, hasMore]); 
+    
 
     return (
         <>
@@ -155,13 +215,14 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
                         placeholder="내용을 입력하세요..." 
                         className="guestbook-input"
                         value={inputValue}
+                        maxLength={200}
                         onChange={(e) => setInputValue(e.target.value)} 
                     />
                     <button type="submit" className="guestbook-submit-btn">등록</button>
                 </form>
                 <div className="entries-container">
-                    {boardList.map((entry) => (
-                        <div key={entry.id} className="entry-card">
+                    {boardList.filter((entry) => entry.visible === true).map((entry, index) => (
+                        <div key={`${entry.id} - ${index}`} className="entry-card">
                             <p className="entry-context">{entry.context}</p>
                             <div className="entry-footer">
                                 <span className="entry-date">{formatCreatedTime(entry.created_time)}</span>
@@ -171,7 +232,8 @@ const BoardPage: React.FC<IGradePageProps> = (props) => {
                             </div>
                         </div>
                     ))}
-                    
+                    <div ref={bottomDivRef} style={{height: "1px"}} />
+                    { !hasMore && <p>마지막 방명록입니다.</p>}
                 </div>
             </div>
         </>
