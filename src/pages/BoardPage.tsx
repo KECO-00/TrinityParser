@@ -17,7 +17,7 @@ export interface BoardType {
     created_time: string;
     visible: boolean;
     likes: number;
-    total_records: string;
+    total_records: number;
 }
 
 export interface BoardEntry {
@@ -30,6 +30,7 @@ const BoardPage: React.FC<IGradePageProps> = () => {
     const api_url = import.meta.env.VITE_API_URL;
     const [boardList, setBoardList] = useState<BoardType[]>([]);
     const [inputValue, setInputValue] = useState<string>("");
+    const [records, setRecords] = useState<number>(0);
     const [lastId, setLastId] = useState<string>("0");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [hasMore, setHasMore] = useState<boolean>(true);
@@ -52,14 +53,17 @@ const BoardPage: React.FC<IGradePageProps> = () => {
             if(data.status === "Bad Request"){
                 alert(data.message);
             }
-            setBoardList((prev) => [...prev, ...data.data]);
+            if(records < data.data[0].total_records){
+                setBoardList((prev) => [...prev, ...data.data]);
+                setRecords(data.data[0].total_records);
+            }
             setIsLoading(false);
 
             if (data.data.length > 0) {
                 setLastId(data.data[data.data.length - 1].id);
               }
         }catch(err) {
-            alert("무엇인가 안된다")
+            alert("죄송해요 뭔가 이상하네요, 잠시 다른 창을 봐주세요")
         } finally {
             setIsLoading(false);
         }
@@ -182,6 +186,8 @@ const BoardPage: React.FC<IGradePageProps> = () => {
     };
 
     useEffect(() => {
+        console.log(records);
+        console.log(boardList);
         getBoard(generateRandomString() + btoa(lastId)); // 초기 데이터 로드
     }, []);
     
@@ -206,6 +212,10 @@ const BoardPage: React.FC<IGradePageProps> = () => {
         return () => observer.disconnect();
     }, [lastId, isLoading, hasMore]); 
     
+    useEffect(() => {
+        
+        console.log(boardList);
+    }, [boardList]);
 
     return (
         <>
