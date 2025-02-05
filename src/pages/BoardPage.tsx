@@ -33,7 +33,7 @@ const BoardPage: React.FC<IGradePageProps> = () => {
     const [records, setRecords] = useState<number>(0);
     const [lastId, setLastId] = useState<string>("0");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [hasMore, setHasMore] = useState<boolean>(false);
 
     const bottomDivRef = useRef<HTMLDivElement | null>(null);
 
@@ -186,9 +186,8 @@ const BoardPage: React.FC<IGradePageProps> = () => {
     };
 
     useEffect(() => {
-        console.log(records);
-        console.log(boardList);
         getBoard(generateRandomString() + btoa(lastId)); // 초기 데이터 로드
+        setHasMore(true);
     }, []);
     
     useEffect(() => {
@@ -212,11 +211,6 @@ const BoardPage: React.FC<IGradePageProps> = () => {
         return () => observer.disconnect();
     }, [lastId, isLoading, hasMore]); 
     
-    useEffect(() => {
-        
-        console.log(boardList);
-    }, [boardList]);
-
     return (
         <>
             <div className="guestbook-container">
