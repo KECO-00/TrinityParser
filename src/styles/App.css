@@ -8,9 +8,9 @@ body {
 }
 
 .container {
-  min-width: 420px;
+  min-width: 390px;
   max-width: 700px;
-  width: 80vw;
+  width: 100vw;
   height: calc(100vh - 160px);
   background-color: #222529;
   padding: 20px;
