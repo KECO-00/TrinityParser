@@ -51,7 +51,7 @@ export default function Homepage (props: IHomepageProps) {
       <div className="btn-container">
         <button className="btn-large" onClick={()=> movePage('/sugang')}>수강신청 인원 조회</button>
         <button className="btn-large" onClick={()=> movePage('/grade')}>이번 학기 성적 조회</button>
-        <button className="btn-large" onClick={()=> movePage('/board')}>게시판</button>
+        <button className="btn-large" onClick={()=> movePage('/board')}>방명록</button>
       </div>
       
       {
